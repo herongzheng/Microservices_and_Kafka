@@ -22,10 +22,13 @@ public class WikimediaInfoProducer {
         String url = "https://stream.wikimedia.org/v2/stream/recentchange";
         EventSource.Builder eventSourcebuilder = new EventSource.Builder(URI.create(url));
         BackgroundEventSource.Builder builder = new BackgroundEventSource.Builder(
-                new WikipediaInfoHandler(kafkaTemplate, topic),
-                eventSourcebuilder);
+                new WikipediaInfoHandler(kafkaTemplate, topic), eventSourcebuilder);
         BackgroundEventSource backgroundEventSource = builder.build();
-        backgroundEventSource.start();
-        TimeUnit.MINUTES.sleep(10);
+        try (backgroundEventSource) {
+            backgroundEventSource.start();
+            TimeUnit.MINUTES.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
