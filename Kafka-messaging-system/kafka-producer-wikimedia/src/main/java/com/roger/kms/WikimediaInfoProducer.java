@@ -26,7 +26,7 @@ public class WikimediaInfoProducer {
         BackgroundEventSource backgroundEventSource = builder.build();
         try (backgroundEventSource) {
             backgroundEventSource.start();
-            TimeUnit.MINUTES.sleep(10);
+            TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
